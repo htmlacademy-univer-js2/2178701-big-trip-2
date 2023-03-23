@@ -4,21 +4,26 @@ import ListPointsView from '../view/list-points.js';
 import PointView from '../view/point.js';
 import NewPointView from '../view/new-point.js';
 import EditPointView from '../view/edit-point.js';
+import PointModel from '../model/point-model.js';
 
 export default class Trip {
   constructor({container}){
     this.component = new ListPointsView();
     this.container = container;
+    this.pointModel = new PointModel();
   }
 
   init() {
-    render(new SortView, this.container, RenderPosition.BEFOREEND);
+    const points = this.pointModel.GetPoints();
+    const destinations = this.pointModel.GetDestinations();
+    const offersByType = this.pointModel.GetOffersByType();
+    render(new SortView(), this.container, RenderPosition.BEFOREEND);
     render (this.component, this.container);
-    render (new NewPointView, this.component.getElement(), RenderPosition.BEFOREEND);
-    render (new EditPointView, this.component.getElement(), RenderPosition.BEFOREEND);
+    render (new NewPointView(), this.component.getElement(), RenderPosition.BEFOREEND);
+    render (new EditPointView(points[2], destinations, offersByType), this.component.getElement(), RenderPosition.BEFOREEND);
 
-    for (let i = 0; i < 3; i++){
-      render (new PointView, this.component.getElement(), RenderPosition.BEFOREEND);
+    for (const point of points){
+      render(new PointView(point, destinations, offersByType), this.component.getElement());
     }
   }
 }
