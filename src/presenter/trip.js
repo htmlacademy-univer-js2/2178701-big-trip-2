@@ -4,7 +4,6 @@ import ListPointsView from '../view/list-points.js';
 import PointView from '../view/point.js';
 import NoPointView from '../view/no-point.js';
 import EditPointView from '../view/edit-point.js';
-import PointModel from '../model/point-model.js';
 
 export default class Trip {
   #component = null;
@@ -50,10 +49,10 @@ export default class Trip {
   }
 
 
-  constructor({container}){
+  constructor({container}, pointsModel){
     this.#component = new ListPointsView();
     this.#container = container;
-    this.#pointModel = new PointModel();
+    this.#pointModel = pointsModel;
   }
 
   init() {
