@@ -10,4 +10,3 @@ const tripPresenter = new Trip({container: tripContainer});
 render(new FilterView, filterContainer);
 render(new MenuView, menuContainer);
 tripPresenter.init();
-
