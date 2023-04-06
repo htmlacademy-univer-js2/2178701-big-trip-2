@@ -1,8 +1,7 @@
-import { render, RenderPosition } from '../render.js';
+import { render, replace } from '../framework/render.js';
 import SortView from '../view/sort.js';
 import ListPointsView from '../view/list-points.js';
 import PointView from '../view/point.js';
-import NewPointView from '../view/new-point.js';
 import NoPointView from '../view/no-point.js';
 import EditPointView from '../view/edit-point.js';
 import PointModel from '../model/point-model.js';
@@ -17,11 +16,11 @@ export default class Trip {
     const editPointView = new EditPointView(point, this.#pointModel.destinations, this.#pointModel.offersByType);
 
     const replacePointToEditForm = () => {
-      this.#component.element.replaceChild(editPointView.element, pointView.element);
+      replace(editPointView, pointView);
     };
 
     const replaceEditFormToPoint = () => {
-      this.#component.element.replaceChild(pointView.element, editPointView.element);
+      replace(pointView, editPointView);
     };
 
     const onEscKeyDown = (evt) => {
@@ -32,19 +31,17 @@ export default class Trip {
       }
     };
 
-    pointView.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
+    pointView.setEditClickHandler(() => {
       replacePointToEditForm();
       document.addEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.element.querySelector('.event__rollup-btn').addEventListener('click', (evt) => {
-      evt.preventDefault();
+    editPointView.setPreviewClickHandler(() => {
       replaceEditFormToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });
 
-    editPointView.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
+    editPointView.setFormSubmitHandler(() => {
       replaceEditFormToPoint();
       document.removeEventListener('keydown', onEscKeyDown);
     });
@@ -65,7 +62,7 @@ export default class Trip {
       render(new NoPointView(), this.#container);
     }
     else{
-      render(new SortView(), this.#container, RenderPosition.BEFOREEND);
+      render(new SortView(), this.#container);
       render (this.#component, this.#container);
       for (const point of this.#pointModel.points){
         this.#renderPoint(point);

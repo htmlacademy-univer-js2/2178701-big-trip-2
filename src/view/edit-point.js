@@ -1,4 +1,4 @@
-import {createElement} from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 import { getDateTime } from '../util';
 const formattOfferTitles = (title) => title.split(' ').join('_');
 
@@ -136,7 +136,7 @@ const createEditPointTemplate = (point, destinations, offersByType) => {
   );
 };
 
-export default class EditPointView {
+export default class EditPointView extends AbstractView {
   #element = null;
   #point = null;
   #destinations = null;
@@ -144,6 +144,7 @@ export default class EditPointView {
 
 
   constructor(point, destinations, offersByType){
+    super();
     this.#point = point;
     this.#destinations = destinations;
     this.#offersByType = offersByType;
@@ -153,14 +154,23 @@ export default class EditPointView {
     return createEditPointTemplate(this.#point, this.#destinations, this.#offersByType);
   }
 
-  get element() {
-    if (!this.#element){
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
+  setPreviewClickHandler = (callback) => {
+    this._callback.previewClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#previewClickHandler);
+  };
 
-  removeElement() {
-    this.#element = null;
-  }
+  #previewClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.previewClick();
+  };
+
+  setFormSubmitHandler = (callback) => {
+    this._callback.formSubmit = callback;
+    this.element.querySelector('form').addEventListener('click', this.#formSubmitHandler);
+  };
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  };
 }
