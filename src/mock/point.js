@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomElement } from '../util.js';
+import { getRandomInteger, getRandomElement } from '../utils/common.js';
 import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 
@@ -90,6 +90,6 @@ const generatePoint = () => {
 };
 
 
-const getPoints = () => Array.from({length: POINTS_COUNT}).map(() => generatePoint());
+const getPoints = () => Array.from({length: POINTS_COUNT}).map(() => generatePoint()).sort();
 
 export {getPoints, getDestinations, getOffersByType };
