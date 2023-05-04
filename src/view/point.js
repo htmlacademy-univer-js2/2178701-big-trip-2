@@ -1,4 +1,4 @@
-import { humanizePointDueDate, getTime, getDate, duration } from '../util';
+import { humanizePointDueDate, getTime, getDate, duration } from '../utils/point.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 

@@ -109,8 +109,7 @@ export default class PointPresenter{
     this.#replacePointToEditForm();
   };
 
-  #handlePreviewClick = (evt) => {
-    evt.preventDefault();
+  #handlePreviewClick = () => {
     this.#replaceEditFormToPoint();
   };
 

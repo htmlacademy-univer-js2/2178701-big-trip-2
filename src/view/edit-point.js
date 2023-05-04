@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { getDateTime } from '../util';
+import { getDateTime } from '../utils/point.js';
 
 const renderDestinationPictures = (pictures) => {
   let result = '';
@@ -163,7 +163,7 @@ export default class EditPointView extends AbstractView {
 
   setFormSubmitHandler = (callback) => {
     this._callback.formSubmit = callback;
-    this.element.querySelector('form').addEventListener('click', this.#formSubmitHandler);
+    this.element.querySelector('.event__save-btn').addEventListener('click', this.#formSubmitHandler);
   };
 
   #formSubmitHandler = (evt) => {
