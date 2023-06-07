@@ -7,9 +7,9 @@ const createSortTemplate = () => (
     <input data-sort-type=${SortType.DAY} id="sort-${SortType.DAY}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.DAY}" checked>
     <label class="trip-sort__btn" for="sort-${SortType.DAY}">Day</label>
   </div>
-  <div class="trip-sort__item  trip-sort__item--${SortType.EVENT}">
-    <input data-sort-type=${SortType.EVENT} id="sort-${SortType.EVENT}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.EVENT}" disabled>
-    <label class="trip-sort__btn" for="sort-${SortType.EVENT}">Event</label>
+  <div class="trip-sort__item  trip-sort__item--event">
+    <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" disabled>
+    <label class="trip-sort__btn" for="sort-event">Event</label>
   </div>
   <div class="trip-sort__item  trip-sort__item--${SortType.TIME}">
     <input data-sort-type=${SortType.TIME} id="sort-${SortType.TIME}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.TIME}">
@@ -19,9 +19,9 @@ const createSortTemplate = () => (
     <input data-sort-type=${SortType.PRICE} id="sort-${SortType.PRICE}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.PRICE}">
     <label class="trip-sort__btn" for="sort-${SortType.PRICE}">Price</label>
   </div>
-  <div class="trip-sort__item  trip-sort__item--${SortType.OFFER}">
-    <input data-sort-type=${SortType.OFFER} id="sort-${SortType.OFFER}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.OFFER}" disabled>
-    <label class="trip-sort__btn" for="sort-${SortType.OFFER}">Offers</label>
+  <div class="trip-sort__item  trip-sort__item--offer">
+    <input id="sort-offer" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-offer" disabled>
+    <label class="trip-sort__btn" for="sort-offer">Offers</label>
   </div>
 </form>`
 );
@@ -40,7 +40,6 @@ export default class SortingView extends AbstractView {
     if (evt.target.tagName !== 'INPUT') {
       return;
     }
-    evt.preventDefault();
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   };
 }

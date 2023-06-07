@@ -2,7 +2,7 @@ import { getRandomInteger, getRandomElement } from '../utils/common.js';
 import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 
-const POINTS_COUNT = 20;
+const POINTS_COUNT = 5;
 
 const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
@@ -60,7 +60,7 @@ const getDestinations = () => Array.from({length: DESTINATION_NAMES.length}).map
 
 const generateOffer = (id, pointType) => ({
   id,
-  title: `offer for ${pointType}`,
+  title: `offer for ${pointType} ${getRandomInteger(Price.MIN, Price.MAX)}`,
   price: getRandomInteger(Price.MIN, Price.MAX)
 });
 
@@ -92,4 +92,4 @@ const generatePoint = () => {
 
 const getPoints = () => Array.from({length: POINTS_COUNT}).map(() => generatePoint()).sort();
 
-export {getPoints, getDestinations, getOffersByType };
+export {getPoints, getDestinations, getOffersByType, POINT_TYPES };

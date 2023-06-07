@@ -28,7 +28,7 @@ export default class BoardPresenter {
 
     this.#sourcedBoardPoints = [...this.#pointsModel.points];
 
-    const points = this.#pointsModel.points;
+    const points = this.#boardPoints;
     if (points.length === 0){
       this.#renderNoPointView();
     }
@@ -69,7 +69,7 @@ export default class BoardPresenter {
     }
 
     this.#sortPoints(sortType);
-    this.#clearPointList();
+    this.#clearPointsList();
     this.#renderPointsList();
   };
 
@@ -102,7 +102,7 @@ export default class BoardPresenter {
     this.#pointPresenter.set(point.id, pointPresenter);
   }
 
-  #clearPointList = () => {
+  #clearPointsList = () => {
     this.#pointPresenter.forEach((presenter) => presenter.destroy());
     this.#pointPresenter.clear();
   };

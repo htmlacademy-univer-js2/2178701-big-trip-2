@@ -4,6 +4,13 @@ const TIME_FORMAT = 'hh:mm';
 const TOTAL_DAY_MINUTES_COUNT = 1440;
 const HOUR_MINUTES_COUNT = 60;
 const DATE_FORMAT = 'YYYY-MM-DD';
+const getZeroInDuration = (value) =>{
+  if (value < 9){
+    return `0${value}`;
+  } else {
+    return `${value}`;
+  }
+};
 export const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
 export const humanizePointDueDate = (date) => dayjs(date).format('DD MMM');
 export const getTime = (date) => dayjs(date).format(TIME_FORMAT);
@@ -17,9 +24,10 @@ export const duration = (dateFrom, dateTo) => {
   const restHours = Math.floor((difference - days * TOTAL_DAY_MINUTES_COUNT) / HOUR_MINUTES_COUNT);
   const restMinutes = difference - (days * TOTAL_DAY_MINUTES_COUNT + restHours * HOUR_MINUTES_COUNT);
 
-  const daysOutput = (days) ? `${days}D` : '';
-  const hoursOutput = (restHours) ? `${restHours}H` : '';
-  const minutesOutput = (restMinutes) ? `${restMinutes}M` : '';
+  const daysOutput = (days) ? `${getZeroInDuration(days)}D` : '';
+  const hoursOutput = (restHours) ? `${getZeroInDuration(restHours)}H` : '';
+  const minutesOutput = (restMinutes) ? `${getZeroInDuration(restMinutes)}M` : '';
+
 
   return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
 };
