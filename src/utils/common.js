@@ -24,3 +24,5 @@ export const updateItem = (items, update) => {
     ...items.slice(index + 1),
   ];
 };
+
+export const capitalizedString = (str) => str.charAt(0).toUpperCase() + str.slice(1);
