@@ -1,16 +1,14 @@
 import dayjs from 'dayjs';
-const FILTER_TYPES = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PAST: 'past'
+import { FilterType } from '../const.js';
+
+const isPointDateFuture = (dateFrom) => dayjs().diff(dateFrom, 'minute') <= 0;
+const isPointDatePast = (dateTo) => dayjs().diff(dateTo, 'minute') > 0;
+const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'minute') > 0 && dayjs().diff(dateTo, 'minute') < 0;
+
+const filter = {
+  [FilterType.EVERYTHING]: (points) => points,
+  [FilterType.FUTURE]: (points) => points.filter((point) => isPointDateFuture(point.dateFrom) || isPointDateFuturePast(point.dateFrom, point.dateTo)),
+  [FilterType.PAST]: (points) => points.filter((point) => isPointDatePast(point.dateTo) || isPointDateFuturePast(point.dateFrom, point.dateTo)),
 };
 
-const checkDatesRelativeToCurrent = (dateFrom, dateTo) => dateFrom.isBefore(dayjs()) && dateTo.isAfter(dayjs());
-const isEventPlanned = (dateFrom, dateTo) => dateFrom.isAfter(dayjs()) || checkDatesRelativeToCurrent(dateFrom, dateTo);
-const isEventPassed = (dateFrom, dateTo) => dateTo.isBefore(dayjs()) || checkDatesRelativeToCurrent(dateFrom, dateTo);
-
-export const filter = {
-  [FILTER_TYPES.EVERYTHING]: (points) => points.map((point) => point),
-  [FILTER_TYPES.FUTURE]: (points) => points.filter((point) => isEventPlanned(dayjs(point.dateFrom), dayjs(point.dateTo))),
-  [FILTER_TYPES.PAST]: (points) => points.filter((point) => isEventPassed(dayjs(point.dateFrom), dayjs(point.dateTo)))
-};
+export { filter };
