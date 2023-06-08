@@ -1,11 +1,8 @@
 import { render, replace, remove } from '../framework/render.js';
 import PointView from '../view/point.js';
 import EditPointView from '../view/edit-point.js';
+import { Mode, UpdateType, UserAction } from '../const.js';
 
-const Mode = {
-  PREVIEW: 'preview',
-  EDITING: 'editing',
-};
 
 export default class PointPresenter{
   #pointListContainer = null;
@@ -18,7 +15,7 @@ export default class PointPresenter{
   #changeData = null;
   #changeMode = null;
   #mode = Mode.PREVIEW
-
+  #isNewPoint = false;
 
   constructor(pointListContainer, pointsModel, changeData, changeMode){
     this.#pointListContainer = pointListContainer;
@@ -36,12 +33,13 @@ export default class PointPresenter{
     const previewEditingPointComponent =  this.#editingPointComponent;
 
     this.#pointViewComponent = new PointView(point, this.#destinations, this.#offers);
-    this.#editingPointComponent = new EditPointView(point, this.#destinations, this.#offers);
+    this.#editingPointComponent = new EditPointView({point: point, destinations: this.#destinations, offers: this.#offers, isNewPoint: this.#isNewPoint});
 
     this.#pointViewComponent.setEditClickHandler(this.#handleEditClick);
     this.#pointViewComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
     this.#editingPointComponent.setPreviewClickHandler(this.#handlePreviewClick);
     this.#editingPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
+    this.#editingPointComponent.setDeleteClickHandler(this.#handleDeleteClick);
 
     if (previewPointViewComponent === null || previewEditingPointComponent === null) {
       render(this.#pointViewComponent, this.#pointListContainer);
@@ -73,23 +71,15 @@ export default class PointPresenter{
     }
   };
 
-  #removeEventListenerByEsc(){
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
-  }
-
-  #addEventListenerByEsc(){
-    document.addEventListener('keydown', this.#escKeyDownHandler);
-  }
-
   #replaceEditFormToPoint = () => {
     replace(this.#pointViewComponent, this.#editingPointComponent);
-    this.#removeEventListenerByEsc();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
     this.#mode = Mode.PREVIEW;
   };
 
   #replacePointToEditForm = () => {
     replace(this.#editingPointComponent, this.#pointViewComponent);
-    this.#addEventListenerByEsc();
+    document.addEventListener('keydown', this.#escKeyDownHandler);
     this.#changeMode();
     this.#mode = Mode.EDITING;
   };
@@ -97,14 +87,17 @@ export default class PointPresenter{
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this.#editingPointComponent.reset(this.#point);
-      this.#replaceEditFormToPoint();
-      this.#removeEventListenerByEsc();
+      this.resetView();
+      document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
   };
 
   #handleFavoriteClick = () => {
-    this.#changeData({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.PATCH,
+      {...this.#point, isFavorite: !this.#point.isFavorite},
+    );
   };
 
   #handleEditClick = () => {
@@ -112,13 +105,24 @@ export default class PointPresenter{
   };
 
   #handlePreviewClick = () => {
-    this.#editingPointComponent.reset(this.#point);
-    this.#replaceEditFormToPoint();
+    this.resetView();
   };
 
   #handleFormSubmit = (point) => {
-    this.#changeData(point);
+    this.#changeData(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
     this.#replaceEditFormToPoint();
+  };
+
+  #handleDeleteClick = (point) => {
+    this.#changeData(
+      UserAction.DELETE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
   };
 
 }
