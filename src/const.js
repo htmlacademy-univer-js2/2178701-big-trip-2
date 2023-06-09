@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { POINT_TYPES } from './mock/point';
 
+const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
 const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
@@ -12,6 +12,7 @@ const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 const FilterType = {
@@ -41,10 +42,10 @@ const BLANK_POINT = {
   basePrice: 0,
   dateFrom: dayjs(),
   dateTo: dayjs(),
-  destinationId: 0,
+  destination: 0,
   isFavorite: false,
-  offerIds: [],
+  offers: [],
   type: POINT_TYPES[0],
 };
 
-export { UserAction, UpdateType, FilterType, SortType, Mode, NoPointsTextType, BLANK_POINT};
+export { UserAction, UpdateType, FilterType, SortType, Mode, NoPointsTextType, BLANK_POINT, POINT_TYPES};
