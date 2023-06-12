@@ -1,6 +1,6 @@
 import { render, replace, remove } from '../framework/render.js';
-import PointView from '../view/point.js';
-import EditPointView from '../view/edit-point.js';
+import PointView from '../view/point-view.js';
+import EditPointView from '../view/edit-point-view.js';
 import { Mode, UpdateType, UserAction } from '../const.js';
 
 
@@ -58,7 +58,6 @@ export default class PointPresenter{
 
     remove(previewPointViewComponent);
     remove(previewEditingPointComponent);
-
   }
 
   destroy = () => {

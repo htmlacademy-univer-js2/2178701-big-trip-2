@@ -11,11 +11,11 @@ const getZeroInDuration = (value) =>{
     return `${value}`;
   }
 };
-export const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
-export const humanizePointDueDate = (date) => dayjs(date).format('DD MMM');
-export const getTime = (date) => dayjs(date).format(TIME_FORMAT);
-export const getDate = (date) => dayjs(date).format(DATE_FORMAT);
-export const duration = (dateFrom, dateTo) => {
+const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
+const humanizePointDueDate = (date) => dayjs(date).format('DD MMM');
+const getTime = (date) => dayjs(date).format(TIME_FORMAT);
+const getDate = (date) => dayjs(date).format(DATE_FORMAT);
+const getDuration = (dateFrom, dateTo) => {
   const start = dayjs(dateFrom);
   const end = dayjs(dateTo);
   const difference = end.diff(start, 'minute');
@@ -32,12 +32,16 @@ export const duration = (dateFrom, dateTo) => {
   return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
 };
 
-export const sortPricePoint = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
+const sortPricePoint = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
 
-export const sortDayPoint = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+const sortDayPoint = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
 
-export const sortTimePoint = (pointA, pointB) => {
+const sortTimePoint = (pointA, pointB) => {
   const timePointA = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
   const timePointB = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
   return timePointB - timePointA;
 };
+
+const capitalizedString = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export {getDateTime, humanizePointDueDate, getTime, getDate, getDuration, sortPricePoint, sortDayPoint, sortTimePoint, capitalizedString};

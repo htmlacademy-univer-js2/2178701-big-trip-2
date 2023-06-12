@@ -1,5 +1,5 @@
 import { render, replace, remove } from '../framework/render.js';
-import FilterView from '../view/filter.js';
+import FilterView from '../view/filter-view.js';
 import { filter } from '../utils/filter.js';
 import { FilterType, UpdateType } from '../const.js';
 
@@ -15,12 +15,10 @@ export default class FilterPresenter {
     this.#pointsModel = pointsModel;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
-    this.#pointsModel.addObserver(this.#handleModelEvent);
   }
 
   get filters() {
     const points = this.#pointsModel.points;
-
     return [
       {
         type: FilterType.EVERYTHING,

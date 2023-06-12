@@ -1,6 +1,16 @@
 import dayjs from 'dayjs';
 
-const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+const PointTypes = {
+  TAXI: 'taxi',
+  BUS: 'bus',
+  TRAIN: 'train',
+  SHIP: 'ship',
+  DRIVE: 'drive',
+  FLIGHT: 'flight',
+  CHECK_IN: 'check-in',
+  SIGHTSEEING: 'sightseeing',
+  RESTAURANT: 'restaurant'
+};
 
 const UserAction = {
   UPDATE_POINT: 'UPDATE_POINT',
@@ -45,7 +55,7 @@ const BLANK_POINT = {
   destination: 1,
   isFavorite: false,
   offers: [],
-  type: POINT_TYPES[0],
+  type: PointTypes.TAXI,
 };
 
-export { UserAction, UpdateType, FilterType, SortType, Mode, NoPointsTextType, BLANK_POINT, POINT_TYPES};
+export { UserAction, UpdateType, FilterType, SortType, Mode, NoPointsTextType, BLANK_POINT, PointTypes};
