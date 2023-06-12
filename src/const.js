@@ -39,10 +39,10 @@ const NoPointsTextType = {
 };
 
 const BLANK_POINT = {
-  basePrice: 0,
+  basePrice: 100,
   dateFrom: dayjs(),
   dateTo: dayjs(),
-  destination: 0,
+  destination: 1,
   isFavorite: false,
   offers: [],
   type: POINT_TYPES[0],

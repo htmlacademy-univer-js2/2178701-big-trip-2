@@ -5,7 +5,7 @@ const TOTAL_DAY_MINUTES_COUNT = 1440;
 const HOUR_MINUTES_COUNT = 60;
 const DATE_FORMAT = 'YYYY-MM-DD';
 const getZeroInDuration = (value) =>{
-  if (value < 9){
+  if (value < 10){
     return `0${value}`;
   } else {
     return `${value}`;

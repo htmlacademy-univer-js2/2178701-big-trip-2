@@ -12,9 +12,8 @@ import DestinationsApiService from './api-service/destinations-api-service.js';
 import OffersApiService from './api-service/offers-api-service.js';
 import { AUTHORIZATION, END_POINT } from './api-service/const-api.js';
 
-
-const menuContainer = document.querySelector('.trip-controls__navigation');
 const headerContainer = document.querySelector('.trip-main');
+const menuContainer = document.querySelector('.trip-controls__navigation');
 const filterContainer = document.querySelector('.trip-controls__filters');
 const tripContainer = document.querySelector('.trip-events');
 
@@ -25,20 +24,19 @@ const destinationsModel = new DestinationsModel(new DestinationsApiService(END_P
 const offersModel = new OffersModel(new OffersApiService(END_POINT, AUTHORIZATION));
 const filterModel = new FilterModel();
 const filterPresenter = new FilterPresenter(filterContainer, filterModel, pointsModel);
-const tripPresenter = new BoardPresenter({container: tripContainer}, pointsModel, destinationsModel, offersModel, filterModel);
+const boardPresenter = new BoardPresenter({container: tripContainer}, pointsModel, destinationsModel, offersModel, filterModel);
 const newPointButtonComponent = new NewPointButtonView();
 
 const handleNewPointFormClose = () => {
   newPointButtonComponent.element.disabled = false;
 };
 
-const handleNewPointButtonClick = () => {
-  tripPresenter.createPoint(handleNewPointFormClose);
+const handleNewPointButtonClick = () => {boardPresenter.createPoint(handleNewPointFormClose);
   newPointButtonComponent.element.disabled = true;
 };
 
 filterPresenter.init();
-tripPresenter.init();
+boardPresenter.init();
 offersModel.init().finally(() => {
   destinationsModel.init().finally(() => {
     pointsModel.init().finally(() => {
