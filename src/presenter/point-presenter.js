@@ -8,7 +8,6 @@ export default class PointPresenter{
   #pointListContainer = null;
   #pointViewComponent = null;
   #editingPointComponent = null;
-  #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
   #point = null;
@@ -19,9 +18,8 @@ export default class PointPresenter{
   #mode = Mode.PREVIEW
   #isNewPoint = false;
 
-  constructor(pointListContainer, pointsModel, destinationsModel, offersModel, changeData, changeMode){
+  constructor(pointListContainer, destinationsModel, offersModel, changeData, changeMode){
     this.#pointListContainer = pointListContainer;
-    this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
     this.#changeData = changeData;
@@ -54,7 +52,8 @@ export default class PointPresenter{
       replace(this.#pointViewComponent, previewPointViewComponent);
     }
     if (this.#mode === Mode.EDITING) {
-      replace(this.#editingPointComponent, previewEditingPointComponent);
+      replace(this.#pointViewComponent, previewEditingPointComponent);
+      this.#mode = Mode.PREVIEW;
     }
 
     remove(previewPointViewComponent);
@@ -73,6 +72,41 @@ export default class PointPresenter{
       this.#replaceEditFormToPoint();
     }
   };
+
+  setSaving = () => {
+    if (this.#mode === Mode.EDITING) {
+      this.#editingPointComponent.updateElement({
+        isDisabled: true,
+        isSaving: true,
+      });
+    }
+  };
+
+  setDeleting = () => {
+    if (this.#mode === Mode.EDITING) {
+      this.#editingPointComponent.updateElement({
+        isDisabled: true,
+        isDeleting: true,
+      });
+    }
+  };
+
+  setAborting = () => {
+    if (this.#mode === Mode.PREVIEW) {
+      this.#pointViewComponent.shake();
+      return;
+    }
+
+    const resetFormState = () => {
+      this.#editingPointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+    this.#editingPointComponent.shake(resetFormState);
+  };
+
 
   #replaceEditFormToPoint = () => {
     replace(this.#pointViewComponent, this.#editingPointComponent);
@@ -117,7 +151,6 @@ export default class PointPresenter{
       UpdateType.MINOR,
       point,
     );
-    this.#replaceEditFormToPoint();
   };
 
   #handleDeleteClick = (point) => {
