@@ -1,5 +1,5 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
-import EditPointView from '../view/edit-point.js';
+import EditPointView from '../view/edit-point-view.js';
 import { UpdateType, UserAction } from '../const.js';
 
 export default class NewPointPresenter {
@@ -7,17 +7,15 @@ export default class NewPointPresenter {
   #editingPointComponent = null;
   #changeData = null;
   #destroyCallback = null;
-  #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
   #destinations = null;
   #offers = null;
   #isNewPoint = true;
 
-  constructor(pointListContainer, changeData, pointsModel, destinationsModel, offersModel) {
+  constructor(pointListContainer, changeData, destinationsModel, offersModel) {
     this.#pointListContainer = pointListContainer;
     this.#changeData = changeData;
-    this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
   }

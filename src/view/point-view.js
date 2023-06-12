@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { humanizePointDueDate, getTime, getDate, duration } from '../utils/point.js';
+import { humanizePointDueDate, getTime, getDate, getDuration } from '../utils/point.js';
 import he from 'he';
 
 
@@ -17,7 +17,7 @@ const createPointTemplate = (point, destinations, allOffers) => {
   const {basePrice, type, destination, isFavorite, dateFrom, dateTo, offers} = point;
   const destinationData = destinations.find((item) => item.id === destination);
   const allPointTypeOffers = allOffers.find((offer) => offer.type === type);
-  const eventDuration = duration(dateFrom, dateTo);
+  const eventDuration = getDuration(dateFrom, dateTo);
   const startDate = dateFrom !== null ? humanizePointDueDate(dateFrom) : '';
   const endDate = dateTo !== null ? humanizePointDueDate(dateTo) : '';
   return (
