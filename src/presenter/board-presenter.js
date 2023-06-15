@@ -73,6 +73,9 @@ export default class BoardPresenter {
   #renderRouteInfo = () => {
     this.#routeInfoPresenter = new RouteInfoPresenter(this.#routeInfoContainer, this.#destinationsModel, this.#offersModel);
     const sortedPoints = sorting[SortType.DAY](this.points);
+    if (sortedPoints.length === 0){
+      return;
+    }
     this.#routeInfoPresenter.init(sortedPoints);
   };
 
